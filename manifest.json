@@ -1,0 +1,16 @@
+{
+    "name" : "Font changer",
+    "version" : "1.0.0",
+    "manifest_version" : 3,
+    "author" : "Darrick",
+    "icons" : { "32" : "iconFC.png" },
+    "action" : {
+        "default_popup" : "index.html"
+    },
+    "background":{
+        "service_worker" : "script.js",
+        "type": "module"
+    },
+    "permissions" : ["scripting"],
+    "host_permissions" : ["https://*/*", "http://*/*"]
+}
