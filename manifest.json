@@ -1,16 +1,19 @@
 {
     "name" : "Font changer",
-    "version" : "1.0.0",
+    "version" : "1.1.0",
     "manifest_version" : 3,
     "author" : "Darrick",
     "icons" : { "32" : "iconFC.png" },
     "action" : {
         "default_popup" : "index.html"
     },
-    "background":{
-        "service_worker" : "script.js",
-        "type": "module"
-    },
-    "permissions" : ["scripting"],
-    "host_permissions" : ["https://*/*", "http://*/*"]
+    "permissions" : ["scripting", "storage"],
+    "host_permissions" : ["https://*/*", "http://*/*"],
+    "content_scripts" : [
+        {
+            "js": ["content.js"],
+            "matches": ["<all_urls>"],
+            "run_at": "document_start"
+        }
+    ]
 }
