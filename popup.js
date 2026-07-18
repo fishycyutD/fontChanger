@@ -1,3 +1,8 @@
+/*
+All await functions must be in an async function
+async must be called in order to run
+(await chrome.storage.local.get("token")).token
+*/
 let fancy = document.getElementById("fancy");
 let basic = document.getElementById("basic");
 let casual = document.getElementById("casual");
@@ -14,12 +19,15 @@ function changeDisplay(choice) {
 }
 async function changeFont(choice) {
   changeDisplay(choice);
-  document.cookie = "defaultFont=" + choice;
+  await chrome.storage.local.set({
+    token: choice,
+  });
+  console.log((await chrome.storage.local.get("token")).token);
     let [tab] = await chrome.tabs.query({active: true, currentWindow: true});
     chrome.scripting.executeScript({
         target : {tabId : tab.id},
         args : [choice],
-        func : (choice) => {console.log(choice); document.body.style.fontFamily = choice; console.log(choice);document.body.appendChild(
+        func : (choice) => {console.log(choice); document.body.style.fontFamily = choice; document.body.appendChild(
   Object.assign(document.createElement("link"), {
     rel: "preconnect",
     href: "https://fonts.googleapis.com",
@@ -64,6 +72,10 @@ basic.addEventListener("click", () => {
     changeFont("Sans-Serif");
 });/*"https://www.youtube.com/*"*/
 
-if(document.cookie.indexOf("defaultFont=") !== -1) {
-  changeFont(getCookie("defaultFont"));
+async function doThing () {
+  if((await chrome.storage.local.get("token")).token) {
+    changeFont((await chrome.storage.local.get("token")).token);
+  }
 }
+doThing();
+//console.log((chrome.storage.local.get("token")).token);
